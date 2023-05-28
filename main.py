@@ -112,19 +112,6 @@ class BST:
             result.append(node.value)
             self._inorder_recursive(node.right, result)
 
-    def inorder_iterative(self):
-        result = []
-        stack = []
-        cur = self.root
-        while cur is not None or stack:
-            while cur is not None:
-                stack.append(cur)
-                cur = cur.left
-            cur = stack.pop()
-            result.append(cur.value)
-            cur = cur.right
-        return result
-
     def preorder_recursive(self):
         result = []
         self._preorder_recursive(self.root, result)
@@ -147,38 +134,6 @@ class BST:
             self._postorder_recursive(node.right, result)
             result.append(node.value)
 
-    def preorder_iterative(self):
-        result = []
-        stack = [self.root]
-        while stack:
-            node = stack.pop()
-            if node:
-                result.append(node.value)
-                stack.append(node.right)
-                stack.append(node.left)
-        return result
-
-    def postorder_iterative(self):
-        result = []
-        stack = []
-        cur = self.root
-        while True:
-            while cur:
-                if cur.right:
-                    stack.append(cur.right)
-                stack.append(cur)
-                cur = cur.left
-            cur = stack.pop()
-            if cur.right and stack and stack[-1] == cur.right:
-                stack.pop()
-                stack.append(cur)
-                cur = cur.right
-            else:
-                result.append(cur.value)
-                cur = None
-            if not stack:
-                break
-        return result
 
 bst = BST()
 bst.insert_recursive(2)
@@ -195,8 +150,5 @@ print(bst.get_min())
 print(bst.get_max())
 bst.delete(6)
 print(bst.inorder_recursive())
-print(bst.inorder_iterative())
 print(bst.preorder_recursive())
-print(bst.preorder_iterative())
 print(bst.postorder_recursive())
-print(bst.postorder_iterative())
