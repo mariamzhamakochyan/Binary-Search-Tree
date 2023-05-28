@@ -25,20 +25,20 @@ class BST:
         if self.root is None:
             self.root = new_node
             return
-        current = self.root
+        cur = self.root
         while True:
-            if value < current.value:
-                if current.left is None:
-                    current.left = new_node
+            if value < cur.value:
+                if cur.left is None:
+                    cur.left = new_node
                     return
                 else:
-                    current = current.left
-            if value > current.value:
-                if current.right is None:
-                    current.right = new_node
+                    cur = cur.left
+            if value > cur.value:
+                if cur.right is None:
+                    cur.right = new_node
                     return
                 else:
-                    current = current.right
+                    cur = cur.right
 
     def search_recursive(self, value):
         return self._search_recursive(self.root, value)
@@ -51,13 +51,13 @@ class BST:
         return self._search_recursive(node.right, value)
 
     def search_iterative(self, value):
-        current = self.root
-        while current is not None and current.value != value:
-            if value < current.value:
-                current = current.left
+        cur = self.root
+        while cur is not None and cur.value != value:
+            if value < cur.value:
+                cur = cur.left
             else:
-                current = current.right
-        return current
+                cur = cur.right
+        return cur
 
     def exists(self, value):
         return self._exists(self.root, value)
@@ -93,10 +93,10 @@ class BST:
         return node
 
     def _find_min(self, node):
-        current = node
-        while current.left is not None:
-            current = current.left
-        return current
+        cur = node
+        while cur.left is not None:
+            cur = cur.left
+        return cur
 
     def get_min(self):
         if self.root is None:
@@ -104,10 +104,10 @@ class BST:
         return self._get_min(self.root)
 
     def _get_min(self, node):
-        current = node
-        while current.left is not None:
-            current = current.left
-        return current.value
+        cur = node
+        while cur.left is not None:
+            cur = cur.left
+        return cur.value
 
     def get_max(self):
         if self.root is None:
@@ -115,10 +115,10 @@ class BST:
         return self._get_max(self.root)
 
     def _get_max(self, node):
-        current = node
-        while current.right is not None:
-            current = current.right
-        return current.value
+        cur = node
+        while cur.right is not None:
+            cur = cur.right
+        return cur.value
 
     def inorder_recursive(self):
         result = []
@@ -134,14 +134,14 @@ class BST:
     def inorder_iterative(self):
         result = []
         stack = []
-        current = self.root
-        while current is not None or stack:
-            while current is not None:
-                stack.append(current)
-                current = current.left
-            current = stack.pop()
-            result.append(current.value)
-            current = current.right
+        cur = self.root
+        while cur is not None or stack:
+            while cur is not None:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            result.append(cur.value)
+            cur = cur.right
         return result
 
     def preorder_recursive(self):
@@ -154,71 +154,3 @@ class BST:
             result.append(node.value)
             self._preorder_recursive(node.left, result)
             self._preorder_recursive(node.right, result)
-
-    def postorder_recursive(self):
-        result = []
-        self._postorder_recursive(self.root, result)
-        return result
-
-    def _postorder_recursive(self, node, result):
-        if node is not None:
-            self._postorder_recursive(node.left, result)
-            self._postorder_recursive(node.right, result)
-            result.append(node.value)
-
-    def preorder_iterative(self):
-        result = []
-        stack = [self.root]
-        while stack:
-            node = stack.pop()
-            if node:
-                result.append(node.value)
-                stack.append(node.right)
-                stack.append(node.left)
-        return result
-
-    def postorder_iterative(self):
-        result = []
-        stack = []
-        current = self.root
-        while True:
-            while current:
-                if current.right:
-                    stack.append(current.right)
-                stack.append(current)
-                current = current.left
-            current = stack.pop()
-            if current.right and stack and stack[-1] == current.right:
-                stack.pop()
-                stack.append(current)
-                current = current.right
-            else:
-                result.append(current.value)
-                current = None
-            if not stack:
-                break
-        return result
-
-
-
-bst = BST()
-bst.insert_recursive(2)
-bst.insert_recursive(3)
-bst.insert_recursive(15)
-bst.insert_recursive(11)
-bst.insert_recursive(7)
-bst.insert_recursive(14)
-
-print(bst.exists(6))
-print(bst.exists(9))
-
-print(bst.get_min())
-print(bst.get_max())
-
-bst.delete(6)
-print(bst.inorder_recursive())
-print(bst.inorder_iterative())
-print(bst.preorder_recursive())
-print(bst.preorder_iterative())
-print(bst.postorder_recursive())
-print(bst.postorder_iterative())
