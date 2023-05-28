@@ -40,25 +40,6 @@ class BST:
                 else:
                     cur = cur.right
 
-    def search_recursive(self, value):
-        return self._search_recursive(self.root, value)
-
-    def _search_recursive(self, node, value):
-        if node is None or node.value == value:
-            return node
-        if value < node.value:
-            return self._search_recursive(node.left, value)
-        return self._search_recursive(node.right, value)
-
-    def search_iterative(self, value):
-        cur = self.root
-        while cur is not None and cur.value != value:
-            if value < cur.value:
-                cur = cur.left
-            else:
-                cur = cur.right
-        return cur
-
     def exists(self, value):
         return self._exists(self.root, value)
 
@@ -154,3 +135,68 @@ class BST:
             result.append(node.value)
             self._preorder_recursive(node.left, result)
             self._preorder_recursive(node.right, result)
+
+    def postorder_recursive(self):
+        result = []
+        self._postorder_recursive(self.root, result)
+        return result
+
+    def _postorder_recursive(self, node, result):
+        if node is not None:
+            self._postorder_recursive(node.left, result)
+            self._postorder_recursive(node.right, result)
+            result.append(node.value)
+
+    def preorder_iterative(self):
+        result = []
+        stack = [self.root]
+        while stack:
+            node = stack.pop()
+            if node:
+                result.append(node.value)
+                stack.append(node.right)
+                stack.append(node.left)
+        return result
+
+    def postorder_iterative(self):
+        result = []
+        stack = []
+        cur = self.root
+        while True:
+            while cur:
+                if cur.right:
+                    stack.append(cur.right)
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            if cur.right and stack and stack[-1] == cur.right:
+                stack.pop()
+                stack.append(cur)
+                cur = cur.right
+            else:
+                result.append(cur.value)
+                cur = None
+            if not stack:
+                break
+        return result
+
+bst = BST()
+bst.insert_recursive(2)
+bst.insert_recursive(3)
+bst.insert_recursive(15)
+bst.insert_recursive(11)
+bst.insert_recursive(7)
+bst.insert_recursive(14)
+
+print(bst.exists(11))
+print(bst.exists(9))
+
+print(bst.get_min())
+print(bst.get_max())
+bst.delete(6)
+print(bst.inorder_recursive())
+print(bst.inorder_iterative())
+print(bst.preorder_recursive())
+print(bst.preorder_iterative())
+print(bst.postorder_recursive())
+print(bst.postorder_iterative())
