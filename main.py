@@ -134,7 +134,7 @@ class BST:
             self._postorder_recursive(node.right, result)
             result.append(node.value)
 
-   def preorder_iterative(self):
+    def preorder_iterative(self):
         result = []
         stack = [self.root]
         while stack:
@@ -179,7 +179,16 @@ class BST:
             if not stack:
                 break
         return result
-
+    
+    def savetofile(self, filename):
+        with open(filename, 'w') as file:
+            self._savetofile(self.root, file)
+    def _savetofile(self, node, file):
+        if node is None:
+            return
+        file.write(str(node.value)+'\n')
+        self._savetofile(node.left, file)
+        self._savetofile(node.right, file)
 
 bst = BST()
 bst.insert_recursive(2)
@@ -201,3 +210,4 @@ print(bst.postorder_recursive())
 print(bst.postorder_iterative())
 print(bst.preorder_iterative())
 print(bst.inorder_iterative())
+bst.savetofile('main.txt')
