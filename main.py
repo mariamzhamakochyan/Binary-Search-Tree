@@ -190,24 +190,40 @@ class BST:
         self._savetofile(node.left, file)
         self._savetofile(node.right, file)
 
-bst = BST()
-bst.insert_recursive(2)
-bst.insert_recursive(3)
-bst.insert_recursive(15)
-bst.insert_recursive(11)
-bst.insert_recursive(7)
-bst.insert_recursive(14)
+def build_bst(filename):
+    bst = BST()
+    with open(filename, 'r') as file:
+        for line in file:
+            value = int(line.strip())
+            bst.insert_recursive(value)
+    return bst
 
-print(bst.exists(11))
-print(bst.exists(9))
+def print_bst(tree):
+    nodes = tree.inorder_recursive()
+    print("Binary Search Tree:")
+    for node in nodes:
+        print(node)
 
-print(bst.get_min())
-print(bst.get_max())
-bst.delete(6)
-print(bst.inorder_recursive())
-print(bst.preorder_recursive())
-print(bst.postorder_recursive())
-print(bst.postorder_iterative())
-print(bst.preorder_iterative())
-print(bst.inorder_iterative())
-bst.savetofile('main.txt')
+filename = 'nodes.txt'
+tree = build_bst(filename)
+print_bst(tree)
+
+# bst.insert_recursive(2)
+# bst.insert_recursive(3)
+# bst.insert_recursive(15)
+# bst.insert_recursive(11)
+# bst.insert_recursive(7)
+# bst.insert_recursive(14)
+
+# print(bst.exists(11))
+# print(bst.exists(9))
+# print(bst.get_min())
+# print(bst.get_max())
+# bst.delete(6)
+# print(bst.inorder_recursive())
+# print(bst.preorder_recursive())
+# print(bst.postorder_recursive())
+# print(bst.postorder_iterative())
+# print(bst.preorder_iterative())
+# print(bst.inorder_iterative())
+# bst.savetofile('main.txt')
